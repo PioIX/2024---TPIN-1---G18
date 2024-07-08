@@ -1,6 +1,5 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const bcrypt = require('bcryptjs');
 const db = require('./modulos/mysql');
 const app = express();
 const port = 3000;
