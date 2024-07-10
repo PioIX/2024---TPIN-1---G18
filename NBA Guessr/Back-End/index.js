@@ -79,6 +79,22 @@ app.post('/check-guess', (req, res) => {
     });
 });
 
+app.post('/check-player-guess', (req, res) => {
+    const { player_name, user_player_guess } = req.body;
+
+    const query = 'SELECT Name FROM TopScorers WHERE Name = ?';
+    db.query(query, [player_name], (err, result) => {
+        if (err) throw err;
+        if (result.length > 0 && result[0].player_name.toUpperCase() === user_player_guess) {
+            res.json({ correct: true });
+            //respuesta correcta agregar siguiente
+        } else {
+            res.json({ correct: false });
+            //agregar pantalla de derrota
+        }
+    });
+});
+
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });

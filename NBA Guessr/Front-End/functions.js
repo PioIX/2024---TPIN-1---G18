@@ -28,3 +28,39 @@ function updateImage() {
 }
 
 document.addEventListener("DOMContentLoaded", updateImage);
+
+
+const badScoreGifs = [
+    "NBA Guessr/Front-End/gifs/bad score/ben simmons.gif",
+    "NBA Guessr/Front-End/gifs/bad score/failed dunk.gif",
+    "NBA Guessr/Front-End/gifs/bad score/fultz.gif"
+];
+
+function getRandomBadScoreGif() {
+    const randomIndex = Math.floor(Math.random() * badScoreGifs.length);
+    return badScoreGifs[randomIndex];
+}
+
+function updateBadScoreGif() {
+    const imageElement = document.getElementById("bad-score-gif");
+    const randomBadScoreGif = getRandomBadScoreGif();
+    imageElement.src = randomBadScoreGif;
+}
+
+document.addEventListener("DOMContentLoaded", updateBadScoreGif);
+
+
+
+
+
+
+function changeToPlayerScreen(){
+    document.getElementById("guess team").style.display = "none";
+    document.getElementById("guess player").style.display = "";
+}
+
+function changeToBadScoreGif(){
+    document.getElementById("game").style.display = "none";
+    document.getElementById("loigin").style.display = "none";
+    document.getElementById("badScore").style.display = "";
+}

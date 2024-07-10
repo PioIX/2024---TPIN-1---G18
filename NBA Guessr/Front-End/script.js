@@ -57,7 +57,7 @@ async function register() {
 
 async function checkGuess() {
     const userGuess = document.getElementById("guessed-team").value.trim().toUpperCase();
-    const teamName = currentImage.split('.')[0]; // Assuming image name matches team name
+    const teamName = currentImage.split('.')[0]; 
 
     const response = await fetch('/check-guess', {
         method: 'POST',
@@ -73,7 +73,41 @@ async function checkGuess() {
     const result = await response.json();
     if (result.correct) {
         alert("Correct!");
+        score++;
+        changeToPlayerScreen();
     } else {
         alert("Incorrect. Try again.");
     }
 }
+
+async function checkPlayerGuess() {
+    const userPlayerGuess = document.getElementById("guessed-player").value.trim().toUpperCase();
+    const playerName = currentImage.split('.')[0]; 
+
+    const response = await fetch('/check-player-guess', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            player_name: playerName,
+            user_player_guess: userPlayerGuess
+        })
+    });
+
+    const result = await response.json();
+    if (result.correct) {
+        alert("Correct!");
+        score++;
+        changeToNext();
+    } else {
+        alert("Incorrect. Try again.");
+        if(score < 4){
+
+        }
+    }
+}
+
+
+let score = 0;
+
