@@ -1,4 +1,3 @@
-//cambiar nombre completo del equipo igual que en base de datos, sin png, imagenes pixeladas
 const images = [
     "Atlanta Hawks", "Boston Celtics", "Brooklyn Nets", "Charlotte Hornets", "Chicago Bulls", "Cleveland Cavaliers", "Dallas Mavericks", "Denver Nuggets", "Detroit Pistons", 
     "Golden State Warriors", "Houston Rockets", "Indiana Pacers", "Los Angeles Clippers", "Los Angeles Lakers", "Memphis Grizzlies", "Miami Heat", "Milwaukee Bucks", 
@@ -34,6 +33,8 @@ document.addEventListener("DOMContentLoaded", updateImage);
 
 document.addEventListener("DOMContentLoaded", updateBadScoreGif);
 
+document.addEventListener("DOMContentLoaded", updateMidScoreGif);
+
 document.addEventListener("DOMContentLoaded", updateGoodScoreGif);
 
 const gifType = ".gif";
@@ -55,6 +56,26 @@ function updateBadScoreGif() {
     const imageElement = document.getElementById("bad-score-gif");
     const randomBadScoreGif = getRandomBadScoreGif();
     imageElement.src = badScoreGifPath + randomBadScoreGif + gifType;
+}
+
+const midScoreGifPath = "gifs/mid score/";
+
+const midScoreGifs = [
+    "curry",
+    "embiid",
+    "kobe",
+    "random",
+];
+
+function getRandomMidScoreGif() {
+    const randomIndex = Math.floor(Math.random() * midScoreGifs.length);
+    return midScoreGifs[randomIndex];
+}
+
+function updateMidScoreGif() {
+    const imageElement = document.getElementById("mid-score-gif");
+    const randomMidScoreGif = getRandomMidScoreGif();
+    imageElement.src = midScoreGifPath + randomMidScoreGif + gifType;
 }
 
 let score = 0;
@@ -91,6 +112,7 @@ function changeToBadScoreGif(){
 function restartGame(){
     document.getElementById("badScore").style.display = "none";
     document.getElementById("goodScore").style.display = "none";
+    document.getElementById("midScore").style.display = "none";
     document.getElementById("guess team").style.display = "";
     document.getElementById("login").style.display = "none";
     score = 0; 
@@ -124,4 +146,10 @@ function changeToGoodScoreGif(){
 
 function changeToNext() {
     updateImage(); 
+}
+
+
+function showRegister(){
+    document.getElementById("register").style.display = "";
+    document.getElementById("login").style.display = "none";
 }

@@ -208,7 +208,7 @@ button {
     transform: translateX(-50%);
     width: 100%;
     height: 1px;
-    background-color: rgb(7, 122, 51);
+    background-color: red;
 }
 
 #succeed-message {
@@ -231,4 +231,26 @@ button {
     width: 100%;
     height: 1px;
     background-color: rgb(7, 122, 51);
+}
+
+#mid-message {
+    position: absolute;
+    bottom: 400px; /* Adjust bottom spacing as needed */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2; /* Ensure it appears above the score square */
+    color: rgb(251, 255, 0);
+    font-size: 24px;
+    font-weight: bold;
+}
+
+#mid-message::before {
+    content: "";
+    position: absolute;
+    bottom: -10px; /* Adjust position of the line */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    height: 1px;
+    background-color: rgb(251, 255, 0);
 }

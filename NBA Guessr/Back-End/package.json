@@ -1,7 +1,7 @@
 {
-  "name": "nba-guessr",
+  "name": "back-end",
   "version": "1.0.0",
-  "description": "d",
+  "description": "NBA Guessr, THE GAME",
   "main": "index.js",
   "scripts": {
     "test": "nodemon index.js"
@@ -9,12 +9,11 @@
   "keywords": [
     "ES"
   ],
-  "author": "slovarosky",
+  "author": "Lorenzo",
   "license": "ISC",
   "dependencies": {
     "-": "^0.0.1",
     "body-parser": "^1.20.2",
-    "cors": "^2.8.5",
     "express": "^4.19.2",
     "mysql2": "^3.10.2",
     "nodemon": "^3.1.4"
