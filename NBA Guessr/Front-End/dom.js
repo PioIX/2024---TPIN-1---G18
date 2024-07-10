@@ -8,6 +8,10 @@ function getPassword(){
 
 document.getElementById("login").style.display = "none";
 
+document.getElementById("guess team").style.display = "none";
+
 document.getElementById("guess player").style.display = "none";
 
-document.getElementById("badScore").style.display = "";
+document.getElementById("badScore").style.display = "none";
+
+document.getElementById("goodScore").style.display = "";

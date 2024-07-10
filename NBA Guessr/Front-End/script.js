@@ -77,6 +77,9 @@ async function checkGuess() {
         changeToPlayerScreen();
     } else {
         alert("Incorrect. Try again.");
+        if(score <= 7){
+            changeToBadScoreGif();
+        }
     }
 }
 
@@ -102,12 +105,12 @@ async function checkPlayerGuess() {
         changeToNext();
     } else {
         alert("Incorrect. Try again.");
-        if(score < 4){
-
+        if(score <= 10){
+            changeToBadScoreGif();
         }
     }
 }
 
 
-let score = 0;
+
 

@@ -1,7 +1,3 @@
-function changeScreen() {
-    document.getElementById("login").style.display = "none";
-    document.getElementById("game").style.display = "";
-}
 //cambiar nombre completo del equipo igual que en base de datos, sin png, imagenes pixeladas
 const images = [
     "BLAZERS.png", "BUCKS.png", "BULLS.png", "CAVS.png", "CELTICS.png",
@@ -29,11 +25,18 @@ function updateImage() {
 
 document.addEventListener("DOMContentLoaded", updateImage);
 
+document.addEventListener("DOMContentLoaded", updateBadScoreGif);
+
+document.addEventListener("DOMContentLoaded", updateGoodScoreGif);
+
+const gifType = ".gif";
+
+const badScoreGifPath = "gifs/bad score/";
 
 const badScoreGifs = [
-    "NBA Guessr/Front-End/gifs/bad score/ben simmons.gif",
-    "NBA Guessr/Front-End/gifs/bad score/failed dunk.gif",
-    "NBA Guessr/Front-End/gifs/bad score/fultz.gif"
+    "ben simmons",
+    "failed dunk",
+    "fultz",
 ];
 
 function getRandomBadScoreGif() {
@@ -44,15 +47,27 @@ function getRandomBadScoreGif() {
 function updateBadScoreGif() {
     const imageElement = document.getElementById("bad-score-gif");
     const randomBadScoreGif = getRandomBadScoreGif();
-    imageElement.src = randomBadScoreGif;
+    imageElement.src = badScoreGifPath + randomBadScoreGif + gifType;
 }
 
-document.addEventListener("DOMContentLoaded", updateBadScoreGif);
+let score = 62;
 
+const scoreSquare = document.getElementById('score-square');
 
+scoreSquare.textContent = score;
 
+const scoreSquare1 = document.getElementById('score-square1');
 
+scoreSquare1.textContent = score;
 
+const scoreSquare2 = document.getElementById('score-square2');
+
+scoreSquare2.textContent = score;
+
+function changeScreen() {
+    document.getElementById("login").style.display = "none";
+    document.getElementById("game").style.display = "";
+}
 
 function changeToPlayerScreen(){
     document.getElementById("guess team").style.display = "none";
@@ -61,6 +76,43 @@ function changeToPlayerScreen(){
 
 function changeToBadScoreGif(){
     document.getElementById("game").style.display = "none";
-    document.getElementById("loigin").style.display = "none";
+    document.getElementById("login").style.display = "none";
+    document.getElementById("goodScore").style.display = "none";
     document.getElementById("badScore").style.display = "";
+}
+
+function restartGame(){
+    document.getElementById("badScore").style.display = "none";
+    document.getElementById("goodScore").style.display = "none";
+    document.getElementById("guess team").style.display = "";
+    document.getElementById("login").style.display = "none";
+    score = 0; 
+    
+    
+}
+
+const goodScoreGifPath = "gifs/good score/";
+
+const goodScoreGifs = [
+    "ant",
+    "champagne",
+    "michael jordan",
+];
+
+function getRandomGoodScoreGif() {
+    const randomIndex = Math.floor(Math.random() * goodScoreGifs.length);
+    return goodScoreGifs[randomIndex];
+}
+
+function updateGoodScoreGif() {
+    const imageElement = document.getElementById("good-score-gif");
+    const randomGoodScoreGif = getRandomGoodScoreGif();
+    imageElement.src = goodScoreGifPath + randomGoodScoreGif + gifType;
+}
+
+function changeToGoodScoreGif(){
+    document.getElementById("game").style.display = "none";
+    document.getElementById("login").style.display = "none";
+    document.getElementById("badScore").style.display = "none";
+    document.getElementById("goodScore").style.display = "";
 }
