@@ -16,6 +16,11 @@ h1 {
     margin-bottom: 20px;
 }
 
+p{
+    text-align: center;
+    font-size: 30px;
+}
+
 #login {
     width: 300px;
     color: #ccc;
