@@ -7,10 +7,10 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
 const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'password',
-    database: 'mydb'
+    host: '181.47.29.35',
+    user: '2024-5BINF-G09',
+    password: 'y0g44l4m4n3c3r911',
+    database: '2024-5BINF-G09'
 });
 
 db.connect((err) => {
@@ -71,10 +71,8 @@ app.post('/check-guess', (req, res) => {
         if (err) throw err;
         if (result.length > 0 && result[0].team_name.toUpperCase() === user_guess) {
             res.json({ correct: true });
-            //respuesta correcta agregar cambio a topscorer
         } else {
             res.json({ correct: false });
-            //agregar pantalla de derrota
         }
     });
 });
@@ -87,10 +85,8 @@ app.post('/check-player-guess', (req, res) => {
         if (err) throw err;
         if (result.length > 0 && result[0].player_name.toUpperCase() === user_player_guess) {
             res.json({ correct: true });
-            //respuesta correcta agregar siguiente
         } else {
             res.json({ correct: false });
-            //agregar pantalla de derrota
         }
     });
 });

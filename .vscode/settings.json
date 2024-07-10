@@ -1,0 +1,18 @@
+{
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default",
+                "enableSsl": "Disabled"
+            },
+            "previewLimit": 50,
+            "server": "181.47.29.35",
+            "port": 3306,
+            "driver": "MySQL",
+            "password": "y0g44l4m4n3c3r911",
+            "name": "NBA Guessr",
+            "database": "2024-5BINF-G09",
+            "username": "2024-5BINF-G09"
+        }
+    ]
+}

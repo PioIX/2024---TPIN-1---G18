@@ -1,26 +1,33 @@
 //cambiar nombre completo del equipo igual que en base de datos, sin png, imagenes pixeladas
 const images = [
-    "BLAZERS.png", "BUCKS.png", "BULLS.png", "CAVS.png", "CELTICS.png",
-    "CLIPPERS.png", "GRIZZLIES.png", "HAWKS.png", "HEAT.png", "HORNETS.png",
-    "JAZZ.png", "KINGS.png", "KNICKS.png", "LAKERS.png", "MAGIC.png",
-    "MAVS.png", "NETS.png", "NUGGETS.png", "PACERS.png", "PELICANS.png",
-    "PISTONS.png", "RAPTORS.png", "ROCKETS.png", "SIXERS.png", "SPURS.png",
-    "SUNS.png", "THUNDER.png", "TIMBERWOLVES.png", "WARRIORS.png", "WIZARDS.png"
+    "Atlanta Hawks", "Boston Celtics", "Brooklyn Nets", "Charlotte Hornets", "Chicago Bulls", "Cleveland Cavaliers", "Dallas Mavericks", "Denver Nuggets", "Detroit Pistons", 
+    "Golden State Warriors", "Houston Rockets", "Indiana Pacers", "Los Angeles Clippers", "Los Angeles Lakers", "Memphis Grizzlies", "Miami Heat", "Milwaukee Bucks", 
+    "Minnesota Timberwolves", "New Orleans Pelicans", "New York Knicks", "Oklahoma City Thunder", "Orlando Magic", "Philadelphia 76ers", "Phoenix Suns", 
+    "Portland Trail Blazers", "Sacramento Kings", "San Antonio Spurs", "Toronto Raptors", "Utah Jazz", "Washington Wizards"
 ];
+
 const imagePath = "images/";
 
 const imageType = ".png";
 
+let remainingImages = [...images]; 
+
+let currentImage = "";
+
 function getRandomImage() {
-    const randomIndex = Math.floor(Math.random() * images.length);
-    return images[randomIndex];
+    const randomIndex = Math.floor(Math.random() * remainingImages.length);
+    const selectedImage = remainingImages.splice(randomIndex, 1)[0]; 
+    return selectedImage;
 }
 
 function updateImage() {
     const imageElement = document.getElementById("team-image");
     const randomImage = getRandomImage();
-    imageElement.src = imagePath + randomImage; // + imageType
-    currentImage = randomImage;
+
+    if (randomImage !== null) {
+        imageElement.src = imagePath + randomImage + imageType;
+        currentImage = randomImage;
+    }
 }
 
 document.addEventListener("DOMContentLoaded", updateImage);
@@ -50,7 +57,7 @@ function updateBadScoreGif() {
     imageElement.src = badScoreGifPath + randomBadScoreGif + gifType;
 }
 
-let score = 62;
+let score = 0;
 
 const scoreSquare = document.getElementById('score-square');
 
@@ -87,8 +94,6 @@ function restartGame(){
     document.getElementById("guess team").style.display = "";
     document.getElementById("login").style.display = "none";
     score = 0; 
-    
-    
 }
 
 const goodScoreGifPath = "gifs/good score/";
@@ -115,4 +120,8 @@ function changeToGoodScoreGif(){
     document.getElementById("login").style.display = "none";
     document.getElementById("badScore").style.display = "none";
     document.getElementById("goodScore").style.display = "";
+}
+
+function changeToNext() {
+    updateImage(); 
 }

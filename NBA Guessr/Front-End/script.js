@@ -77,7 +77,7 @@ async function checkGuess() {
         changeToPlayerScreen();
     } else {
         alert("Incorrect. Try again.");
-        if(score <= 7){
+        if(score <= 16){
             changeToBadScoreGif();
         }
     }
@@ -102,11 +102,18 @@ async function checkPlayerGuess() {
     if (result.correct) {
         alert("Correct!");
         score++;
+        if (score == 62){
+            changeToGoodScoreGif();
+        }
         changeToNext();
+        
     } else {
         alert("Incorrect. Try again.");
-        if(score <= 10){
+        if(score <= 16){
             changeToBadScoreGif();
+        }
+        if(40 > score > 16){
+            changeToMidScoreGif();
         }
     }
 }
