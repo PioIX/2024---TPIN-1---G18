@@ -10,12 +10,19 @@ app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 app.use(cors());
 
-app.post('/login', async (req, res) => {
-    const { username, password } = req.body;
+const MySQL = require('./modules/mysql.js');
+
+app.listen(port, function () {
+    console.log(`Server running at http://localhost:${port}`);
+    console.log('Defined routes:');
+});
+
+app.get('/login', async function(req, res) {
+    const { username, password } = req.query;
 
     try {
         const query = 'SELECT * FROM Users WHERE Username = ?';
-        const results = await realizarQuery(query, [username]);
+        const results = await MySQL.makeQuery(query, [username]);
 
         if (results.length > 0) {
             const user = results[0];
@@ -29,11 +36,14 @@ app.post('/login', async (req, res) => {
             res.status(404).json({ message: 'User not found' });
         }
     } catch (error) {
+        console.error('Error during login:', error);
         res.status(500).json({ message: 'Internal server error', error });
     }
 });
 
-app.post('/register', async (req, res) => {
+
+
+app.get('/register', async function(req, res) {
     const { username, password } = req.body;
 
     try {
@@ -55,7 +65,7 @@ app.post('/register', async (req, res) => {
 });
 
 
-app.post('/check-guess', async (req, res) => {
+app.get('/check-guess', async function(req, res) {
     const { team_name, user_guess } = req.body;
 
     try {
@@ -73,7 +83,7 @@ app.post('/check-guess', async (req, res) => {
 });
 
 
-app.post('/check-player-guess', async (req, res) => {
+app.get('/check-player-guess', async function(req, res) {
     const { player_name, user_player_guess } = req.body;
 
     try {
@@ -90,11 +100,4 @@ app.post('/check-player-guess', async (req, res) => {
     }
 });
 
-app.listen(port, function(){
-    console.log(`Server running in http://localhost:${port}`);
-    console.log('Defined routes:');
-    console.log('   [POST] http://localhost:3000/login');
-    console.log('   [POST] http://localhost:3000/register');
-    console.log('   [POST] http://localhost:3000/check-guess');
-    console.log('   [POST] http://localhost:3000/check-player-guess');
-});
+
