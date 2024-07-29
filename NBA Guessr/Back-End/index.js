@@ -37,14 +37,14 @@ app.post('/register', async (req, res) => {
     const { username, password } = req.body;
 
     try {
-        // Verificar si el nombre de usuario ya existe
+        
         const queryCheck = 'SELECT * FROM Users WHERE Username = ?';
         const resultsCheck = await realizarQuery(queryCheck, [username]);
 
         if (resultsCheck.length > 0) {
             res.status(409).json({ message: 'Username already exists' });
         } else {
-            // Insertar el nuevo usuario
+        
             const queryInsert = 'INSERT INTO Users (Username, Password) VALUES (?, ?)';
             await realizarQuery(queryInsert, [username, password]);
             res.json({ message: 'Registration successful', username: username });
@@ -90,7 +90,6 @@ app.post('/check-player-guess', async (req, res) => {
     }
 });
 
-//Pongo el servidor a escuchar
 app.listen(port, function(){
     console.log(`Server running in http://localhost:${port}`);
     console.log('Defined routes:');
