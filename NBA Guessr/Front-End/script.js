@@ -1,13 +1,12 @@
 async function login() {
-
-    const username = getUsername();
-    const password = getPassword(); 
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
 
     try {
-        const response = await fetch('/login', {
-            method: 'POST',
+        const response = await fetch('http://localhost:3000/login', {
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json'
+                "Content-Type": "application/json",
             },
             body: JSON.stringify({ username, password })
         });
@@ -16,24 +15,23 @@ async function login() {
 
         if (response.ok) {
             alert(result.message);
-            changeScreen();
-
+            changeScreen(); // Assuming this function exists and is defined elsewhere
         } else {
             alert(result.message);
         }
     } catch (error) {
         console.error('Error:', error);
-        alert('An error occurred while trying to log in. Please try again later.');
+        alert('An error occurred while trying to login. Please try again later.');
     }
 }
 
-async function register() {
 
+async function register() {
     const username = document.getElementById('new-username').value;
     const password = document.getElementById('new-password').value;
 
     try {
-        const response = await fetch('/register', {
+        const response = await fetch('http://localhost:3000/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -45,7 +43,7 @@ async function register() {
 
         if (response.ok) {
             alert(result.message);
-            changeScreen();
+            changeScreen(); // Assuming this function exists and is defined elsewhere
         } else {
             alert(result.message);
         }
@@ -55,66 +53,79 @@ async function register() {
     }
 }
 
+
 async function checkGuess() {
     const userGuess = document.getElementById("guessed-team").value.trim().toUpperCase();
     const teamName = currentImage.split('.')[0]; 
 
-    const response = await fetch('/check-guess', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            team_name: teamName,
-            user_guess: userGuess
-        })
-    });
+    try {
+        const response = await fetch('http://localhost:3000/check-guess', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                team_name: teamName,
+                user_guess: userGuess
+            })
+        });
 
-    const result = await response.json();
-    if (result.correct) {
-        alert("Correct!");
-        score++;
-        changeToPlayerScreen();
-    } else {
-        alert("Incorrect. Try again.");
-        if(score <= 16){
-            changeToBadScoreGif();
+        const result = await response.json();
+
+        if (response.ok && result.correct) {
+            alert("Correct!");
+            score++; 
+            changeToPlayerScreen(); 
+        } else {
+            alert("Incorrect. Try again.");
+            if (score <= 16) {
+                changeToBadScoreGif(); 
+            }
         }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred while checking the guess. Please try again later.');
     }
 }
+
 
 async function checkPlayerGuess() {
     const userPlayerGuess = document.getElementById("guessed-player").value.trim().toUpperCase();
     const playerName = currentImage.split('.')[0]; 
 
-    const response = await fetch('/check-player-guess', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            player_name: playerName,
-            user_player_guess: userPlayerGuess
-        })
-    });
+    try {
+        const response = await fetch('http://localhost:3000/check-player-guess', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                player_name: playerName,
+                user_player_guess: userPlayerGuess
+            })
+        });
 
-    const result = await response.json();
-    if (result.correct) {
-        alert("Correct!");
-        score++;
-        if (score == 62){
-            changeToGoodScoreGif();
+        const result = await response.json();
+
+        if (response.ok && result.correct) {
+            alert("Correct!");
+            score++; 
+            if (score == 62) {
+                changeToGoodScoreGif(); 
+            }
+            changeToNext(); 
+        } else {
+            alert("Incorrect. Try again.");
+            if (score <= 16) {
+                changeToBadScoreGif(); 
+            }
+            if (score > 16 && score < 40) {
+                changeToMidScoreGif(); 
+            }
         }
-        changeToNext();
-        
-    } else {
-        alert("Incorrect. Try again.");
-        if(score <= 16){
-            changeToBadScoreGif();
-        }
-        if(40 > score > 16){
-            changeToMidScoreGif();
-        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred while checking the player guess. Please try again later.');
     }
 }
 
