@@ -1,103 +1,43 @@
-var express = require('express'); //Tipo de servidor: Express
-var bodyParser = require('body-parser'); //Convierte los JSON
-var cors = require('cors');
+const express = require('express');						// Para el manejo del web server
+const bodyParser = require('body-parser'); 				// Para el manejo de los strings JSON
+const MySQL = require('./modulos/mysql');				// Añado el archivo mysql.js presente en la carpeta módulos
+const session = require('express-session');				// Para el manejo de las variables de sesión
+const cors = require("cors");
 
-var app = express(); //Inicializo express
-var port = process.env.PORT || 3000; //Ejecuto el servidor en el puerto 3000
+const app = express();									// Inicializo express para el manejo de las peticiones
 
-// Convierte una petición recibida (POST-GET...) a objeto JSON
-app.use(bodyParser.urlencoded({extended:false}));
+app.use(bodyParser.urlencoded({ extended: false }));	// Inicializo el parser JSON
 app.use(bodyParser.json());
 app.use(cors());
 
-const MySQL = require('./modules/mysql.js');
+const LISTEN_PORT = 4000;								// Puerto por el que estoy ejecutando la página Web
 
-app.listen(port, function () {
-    console.log(`Server running at http://localhost:${port}`);
-    console.log('Defined routes:');
+const server = app.listen(LISTEN_PORT, () => {
+	console.log(`Servidor NodeJS corriendo en http://localhost:${LISTEN_PORT}/`);
+});;
+
+app.post('/login', async (req, res) => {
+	let usuario;
+	console.log("Recibi: ", req.body);
+
+	usuario = await MySQL.realizarQuery(`SELECT UserId FROM Users WHERE Username='${req.body.username}' AND Password='${req.body.password}';`);
+	if (usuario.length != 0) {
+		console.log(usuario);
+		res.send(usuario)
+	} else {
+		res.send([]);
+	}
 });
 
-app.get('/login', async function(req, res) {
-    const { username, password } = req.query;
+app.post('/register', async (req, res) => {
+	let usuario;
+	console.log("Recibi: ", req.body);
 
-    try {
-        const query = 'SELECT * FROM Users WHERE Username = ?';
-        const results = await MySQL.makeQuery(query, [username]);
-
-        if (results.length > 0) {
-            const user = results[0];
-
-            if (password === user.password) {
-                res.json({ message: 'Login successful', username: user.username });
-            } else {
-                res.status(401).json({ message: 'Incorrect password' });
-            }
-        } else {
-            res.status(404).json({ message: 'User not found' });
-        }
-    } catch (error) {
-        console.error('Error during login:', error);
-        res.status(500).json({ message: 'Internal server error', error });
-    }
+	usuario = await MySQL.realizarQuery(`INSERT INTO Users (Username, Password) VALUES ('${req.body.username}', '${req.body.password}');`);
+	if (usuario.length != 0) {
+		console.log(usuario);
+		res.send(usuario)
+	} else {
+		res.send([]);
+	}
 });
-
-
-
-app.get('/register', async function(req, res) {
-    const { username, password } = req.body;
-
-    try {
-        
-        const queryCheck = 'SELECT * FROM Users WHERE Username = ?';
-        const resultsCheck = await realizarQuery(queryCheck, [username]);
-
-        if (resultsCheck.length > 0) {
-            res.status(409).json({ message: 'Username already exists' });
-        } else {
-        
-            const queryInsert = 'INSERT INTO Users (Username, Password) VALUES (?, ?)';
-            await realizarQuery(queryInsert, [username, password]);
-            res.json({ message: 'Registration successful', username: username });
-        }
-    } catch (error) {
-        res.status(500).json({ message: 'Internal server error', error });
-    }
-});
-
-
-app.get('/check-guess', async function(req, res) {
-    const { team_name, user_guess } = req.body;
-
-    try {
-        const query = 'SELECT Name FROM Teams WHERE Name = ?';
-        const results = await realizarQuery(query, [team_name]);
-
-        if (results.length > 0 && results[0].Name.toUpperCase() === user_guess.toUpperCase()) {
-            res.json({ correct: true });
-        } else {
-            res.json({ correct: false });
-        }
-    } catch (error) {
-        res.status(500).json({ message: 'Internal server error', error });
-    }
-});
-
-
-app.get('/check-player-guess', async function(req, res) {
-    const { player_name, user_player_guess } = req.body;
-
-    try {
-        const query = 'SELECT Name FROM TopScorers WHERE Name = ?';
-        const results = await realizarQuery(query, [player_name]);
-
-        if (results.length > 0 && results[0].Name.toUpperCase() === user_player_guess.toUpperCase()) {
-            res.json({ correct: true });
-        } else {
-            res.json({ correct: false });
-        }
-    } catch (error) {
-        res.status(500).json({ message: 'Internal server error', error });
-    }
-});
-
-

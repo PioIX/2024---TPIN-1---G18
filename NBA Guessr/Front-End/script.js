@@ -1,37 +1,35 @@
-async function login() {
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
+async function handleLogin() {
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+    console.log(username, password);
 
-    try {
-        const response = await fetch('http://localhost:3000/login', {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ username, password })
-        });
-
-        const result = await response.json();
-
-        if (response.ok) {
-            alert(result.message);
-            changeScreen(); // Assuming this function exists and is defined elsewhere
-        } else {
-            alert(result.message);
-        }
-    } catch (error) {
-        console.error('Error:', error);
-        alert('An error occurred while trying to login. Please try again later.');
+    let datos = {
+        username: username,
+        password: password
     }
+
+    const response = await fetch("http://localhost:4000/login", {
+        method: "POST",
+        body: JSON.stringify(datos),
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
+
+    const respuesta = await response.json();
+    if (respuesta.length != 0) {
+        changeScreen();
+    } else
+        alert("Datos incorrectos");
 }
 
-
+/*
 async function register() {
     const username = document.getElementById('new-username').value;
     const password = document.getElementById('new-password').value;
 
     try {
-        const response = await fetch('http://localhost:3000/register', {
+        const response = await fetch('http://localhost:4000/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -52,6 +50,7 @@ async function register() {
         alert('An error occurred while trying to register. Please try again later.');
     }
 }
+
 
 
 async function checkGuess() {
@@ -132,3 +131,4 @@ async function checkPlayerGuess() {
 
 
 
+*/
