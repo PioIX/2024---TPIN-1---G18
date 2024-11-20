@@ -1,9 +1,5 @@
-//Sección MySQL del código
-const mySql = require("mysql2/promise");
+const mysql = require('mysql2/promise');
 
-/**
- * Objeto con la configuración de la base de datos MySQL a utilizar.
- */
 const SQL_CONFIGURATION_DATA =
 {
 	//host: "10.1.5.205", //IP privada del servidor del colegio

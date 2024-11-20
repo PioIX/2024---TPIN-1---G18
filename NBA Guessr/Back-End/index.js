@@ -1,20 +1,22 @@
-const express = require('express');						// Para el manejo del web server
-const bodyParser = require('body-parser'); 				// Para el manejo de los strings JSON
-const MySQL = require('./modulos/mysql');				// Añado el archivo mysql.js presente en la carpeta módulos
-const session = require('express-session');				// Para el manejo de las variables de sesión
-const cors = require("cors");
+var express = require('express'); //Tipo de servidor: Express
+var bodyParser = require('body-parser'); //Convierte los JSON
+var cors = require('cors');
 
-const app = express();									// Inicializo express para el manejo de las peticiones
+var app = express(); //Inicializo express
+var port = process.env.PORT || 4000; //Ejecuto el servidor en el puerto 3000
 
-app.use(bodyParser.urlencoded({ extended: false }));	// Inicializo el parser JSON
+// Convierte una petición recibida (POST-GET...) a objeto JSON
+app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 app.use(cors());
 
-const LISTEN_PORT = 4000;								// Puerto por el que estoy ejecutando la página Web
+const MySQL = require('./modules/mysql.js');
 
-const server = app.listen(LISTEN_PORT, () => {
-	console.log(`Servidor NodeJS corriendo en http://localhost:${LISTEN_PORT}/`);
-});;
+app.listen(port, function () {
+    console.log(`Server running at http://localhost:${port}`);
+    console.log('Defined routes:');
+});
+
 
 app.post('/login', async (req, res) => {
 	let usuario;
