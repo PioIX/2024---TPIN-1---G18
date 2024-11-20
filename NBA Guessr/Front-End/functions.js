@@ -1,17 +1,29 @@
+// imagenes
+
 const images = [
-    "Atlanta Hawks", "Boston Celtics", "Brooklyn Nets", "Charlotte Hornets", "Chicago Bulls", "Cleveland Cavaliers", "Dallas Mavericks", "Denver Nuggets", "Detroit Pistons", 
-    "Golden State Warriors", "Houston Rockets", "Indiana Pacers", "Los Angeles Clippers", "Los Angeles Lakers", "Memphis Grizzlies", "Miami Heat", "Milwaukee Bucks", 
-    "Minnesota Timberwolves", "New Orleans Pelicans", "New York Knicks", "Oklahoma City Thunder", "Orlando Magic", "Philadelphia 76ers", "Phoenix Suns", 
-    "Portland Trail Blazers", "Sacramento Kings", "San Antonio Spurs", "Toronto Raptors", "Utah Jazz", "Washington Wizards"
+    "ATLANTA HAWKS", "BOSTON CELTICS", "BROOKLYN NETS", "CHARLOTTE HORNETS", "CHICAGO BULLS", "CLEVELAND CAVALIERS", "DALLAS MAVERICKS", "DENVER NUGGETS", "DETROIT PISTONS", 
+   "GOLDEN STATE WARRIORS", "HOUSTON ROCKETS", "INDIANA PACERS", "LOS ANGELES CLIPPERS", "LOS ANGELES LAKERS", "MEMPHIS GRIZZLIES", "MIAMI HEAT", "MILWAUKEE BUCKS", 
+   "MINNESOTA TIMBERWOLVES", "NEW ORLEANS PELICANS", "NEW YORK KNICKS", "OKLAHOMA CITY THUNDER", "ORLANDO MAGIC", "PHILADELPHIA 76ERS", "PHOENIX SUNS", 
+    "PORTLAND TRAIL BLAZERS", "SACRAMENTO KINGS", "SAN ANTONIO SPURS", "TORONTO RAPTORS", "UTAH JAZZ", "WASHINGTON WIZARDS"
 ];
 
-const imagePath = "images/";
+const imagesPlayers = ["DOMINIQUE WILKINS", "JOHN HAVLICEK", "BROOK LOPEZ", "KEMBA WALKER", "MICHAEL JORDAN", "LEBRON JAMES", "DIRK NOWITZKI", "ALEX ENGLISH", "ISIAH THOMAS",
+     "STEPHEN CURRY", "HAKEEM OLAJUWON", "REGGIE MILLER", "RANDY SMITH", "KOBE BRYANT", "MIKE CONLEY", "DWYANE WADE", "GIANNIS ANTETOKOUNMPO", "KEVIN GARNETT", "ANTHONY DAVIS", 
+     "PATRICK EWING", "RUSSELL WESTBROOK", "DWIGHT HOWARD", "HAL GREER", "WALTER DAVIS", "DAMIAN LILLARD", "OSCAR ROBERTSON", "TIM DUNCAN", "DEMAR DEROZAN",  "KARL MALONE", 
+     "ELVIN HAYES"
+];
+
+const imagePath = "images/teams/";
 
 const imageType = ".png";
 
 let remainingImages = [...images]; 
 
+let remainingImagesPlayers = [...imagesPlayers]; 
+
 let currentImage = "";
+
+let currentImagePlayer = "";
 
 function getRandomImage() {
     const randomIndex = Math.floor(Math.random() * remainingImages.length);
@@ -29,15 +41,27 @@ function updateImage() {
     }
 }
 
-document.addEventListener("DOMContentLoaded", updateImage);
+function getRandomImagePlayer() {
+    const randomIndex = Math.floor(Math.random() * remainingImagesPlayers.length);
+    const selectedImagePlayer = remainingImagesPlayers.splice(randomIndex, 1)[0]; 
+    return selectedImagePlayer;
+}
 
-document.addEventListener("DOMContentLoaded", updateBadScoreGif);
+function updateImagePlayer() {
+    const imagePlayerElement = document.getElementById("player-image");
+    const randomImagePlayer = getRandomImagePlayer();
 
-document.addEventListener("DOMContentLoaded", updateMidScoreGif);
+    if (randomImagePlayer !== null) {
+        imagePlayerElement.src = imagePath + randomImagePlayer + imageType;
+        currentImagePlayer = randomImagePlayer;
+    }
+}
 
-document.addEventListener("DOMContentLoaded", updateGoodScoreGif);
+//gifs
 
 const gifType = ".gif";
+
+// badscore
 
 const badScoreGifPath = "gifs/bad score/";
 
@@ -57,6 +81,15 @@ function updateBadScoreGif() {
     const randomBadScoreGif = getRandomBadScoreGif();
     imageElement.src = badScoreGifPath + randomBadScoreGif + gifType;
 }
+
+function changeToBadScoreGif(){
+    document.getElementById("game").style.display = "none";
+    document.getElementById("login").style.display = "none";
+    document.getElementById("goodScore").style.display = "none";
+    document.getElementById("badScore").style.display = "";
+}
+
+//midscore
 
 const midScoreGifPath = "gifs/mid score/";
 
@@ -78,45 +111,14 @@ function updateMidScoreGif() {
     imageElement.src = midScoreGifPath + randomMidScoreGif + gifType;
 }
 
-let score = 0;
-
-const scoreSquare = document.getElementById('score-square');
-
-scoreSquare.textContent = score;
-
-const scoreSquare1 = document.getElementById('score-square1');
-
-scoreSquare1.textContent = score;
-
-const scoreSquare2 = document.getElementById('score-square2');
-
-scoreSquare2.textContent = score;
-
-function changeScreen() {
-    document.getElementById("login").style.display = "none";
-    document.getElementById("game").style.display = "";
-}
-
-function changeToPlayerScreen(){
-    document.getElementById("guess team").style.display = "none";
-    document.getElementById("guess player").style.display = "";
-}
-
-function changeToBadScoreGif(){
+function changeToMidScoreGif(){
     document.getElementById("game").style.display = "none";
     document.getElementById("login").style.display = "none";
     document.getElementById("goodScore").style.display = "none";
-    document.getElementById("badScore").style.display = "";
-}
-
-function restartGame(){
+    document.getElementById("midScore").style.display = "";
     document.getElementById("badScore").style.display = "none";
-    document.getElementById("goodScore").style.display = "none";
-    document.getElementById("midScore").style.display = "none";
-    document.getElementById("guess team").style.display = "";
-    document.getElementById("login").style.display = "none";
-    score = 0; 
 }
+//goodscore
 
 const goodScoreGifPath = "gifs/good score/";
 
@@ -144,12 +146,54 @@ function changeToGoodScoreGif(){
     document.getElementById("goodScore").style.display = "";
 }
 
+//manejo score
+let score = 0;
+
+function updateScore(newScore) {
+    score = newScore;
+    document.getElementById('score-square').textContent = score;
+    document.getElementById('score-square').value = score;
+    document.getElementById('score-square1').textContent = score;
+    document.getElementById('score-square1').value = score;
+    document.getElementById('score-square2').textContent = score;
+    document.getElementById('score-square2').value = score;
+    document.getElementById('score-square3').textContent = score;
+    document.getElementById('score-square3').value = score;
+}
+
+function handleScoreFeedback() {
+    if (score <= 120) {
+        changeToBadScoreGif();
+    } else if (score > 120 && score < 300) {
+        changeToMidScoreGif();
+    } else if (score = 300) {
+        changeToGoodScoreGif();
+    }
+}
+
+//manejo pantallas
+function changeScreen() {
+    document.getElementById("login").style.display = "none";
+    document.getElementById("register").style.display = "none";
+    document.getElementById("guess team").style.display = "";
+}
+
+function changeToPlayerScreen(){
+    document.getElementById("guess team").style.display = "none";
+    document.getElementById("guess player").style.display = "";
+}
+
 function changeToNext() {
     updateImage(); 
 }
-
 
 function showRegister(){
     document.getElementById("register").style.display = "";
     document.getElementById("login").style.display = "none";
 }
+
+function restartGame() {
+    location.reload();  // Esto recargará la página y reiniciará el juego
+    
+}
+

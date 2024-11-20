@@ -11,3 +11,13 @@ document.getElementById("badScore").style.display = "none";
 document.getElementById("midScore").style.display = "none";
 
 document.getElementById("goodScore").style.display = "none";
+
+document.addEventListener("DOMContentLoaded", updateImage);
+
+document.addEventListener("DOMContentLoaded", updateImagePlayer);
+
+document.addEventListener("DOMContentLoaded", updateBadScoreGif);
+
+document.addEventListener("DOMContentLoaded", updateMidScoreGif);
+
+document.addEventListener("DOMContentLoaded", updateGoodScoreGif);

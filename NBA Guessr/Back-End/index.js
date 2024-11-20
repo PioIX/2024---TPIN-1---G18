@@ -41,3 +41,15 @@ app.post('/register', async (req, res) => {
 		res.send([]);
 	}
 });
+
+app.post('/checkGuess', async (req, res) => {
+	let guessedTeam;
+	console.log("Recibi: ", req.body);
+	guessedTeam = await MySQL.realizarQuery(`SELECT teamId FROM Teams WHERE Name = '${req.body.userGuess}';`);
+	if (guessedTeam.length != 0) {
+		console.log(guessedTeam);
+		res.send(guessedTeam)
+	} else {
+		res.send([]); 
+	}
+})
