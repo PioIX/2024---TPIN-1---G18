@@ -10,7 +10,7 @@ app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 app.use(cors());
 
-const MySQL = require('./modules/mysql.js');
+const MySQL = require('./modulos/mysql.js');
 
 app.listen(port, function () {
     console.log(`Server running at http://localhost:${port}`);
